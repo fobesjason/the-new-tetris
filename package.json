@@ -1,14 +1,13 @@
 {
-  "name": "app",
-  "productName": "App",
-  "version": "0.0.0",
-  "description": "",
+  "name": "the-new-tetris",
+  "productName": "The New Tetris",
+  "version": "1.0.0",
+  "description": "Remake of the classic N64 game, The New Tetris, in Excalibur.js and Electron",
   "license": "MIT",
-  "repository": "user/repo",
+  "repository": "https://github.com/fobesjason/the-new-tetris",
   "author": {
-    "name": "Excalibur.js Team",
-    "email": "",
-    "url": "https://github.com/excaliburjs"
+    "name": "Jason Fobes",
+    "url": "https://github.com/fobesjason"
   },
   "scripts": {
     "test": "xo",
@@ -22,18 +21,19 @@
   ],
   "keywords": [
     "electron-app",
-    "electron"
+    "electron",
+    "tetris"
   ],
   "dependencies": {
     "electron-debug": "1.0.0",
-    "excalibur": "0.14.0"
+    "excalibur": "0.20.0"
   },
   "devDependencies": {
     "devtron": "1.4.0",
-    "electron": "1.6.8",
-    "electron-packager": "8.7.0",
-    "typescript": "2.3.2",
-    "xo": "0.16.0"
+    "electron": "4.0.0",
+    "electron-packager": "13.0.0",
+    "typescript": "^3.3.0-dev.20181229",
+    "xo": "^0.23.0"
   },
   "xo": {
     "esnext": true,
