@@ -1,10 +1,6 @@
-# Excalibur Electron Example
+# The New Tetris
 
-This example shows how to use [Electron](http://electron.atom.io/) to distribute your Excalibur game 
-to Mac, Linux, and PC desktops. It is built on 
-[electron-boilerplate](https://github.com/sindresorhus/electron-boilerplate).
-
-![Electron](https://cloud.githubusercontent.com/assets/563819/21593476/23dbd4f4-d0dd-11e6-94a8-f52c37fd3237.png)
+Remake of the classic N64 game in 1999
 
 ## Launch
 
@@ -16,9 +12,3 @@ to Mac, Linux, and PC desktops. It is built on
 
     # Package for distribution (run as administrator)
     npm run build
-
-## Notes
-
-The game files are compiled via TypeScript in the **game** folder. You could easily use a bundler 
-like [webpack](https://github.com/excaliburjs/example-ts-webpack) to bundle Excalibur and your game 
-into one file.

@@ -2,3 +2,5 @@ node_modules
 /dist
 game/*.js
 game/*.map
+game/elements/*.js
+game/elements/*.map

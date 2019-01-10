@@ -25,7 +25,7 @@
     "tetris"
   ],
   "dependencies": {
-    "electron-debug": "1.0.0",
+    "electron-debug": "2.0.0",
     "excalibur": "0.20.0"
   },
   "devDependencies": {
