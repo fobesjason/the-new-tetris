@@ -1,14 +1,14 @@
 import { Color } from 'excalibur'
 import { Coordinate } from './coordinate'
-import { Game } from '../game'
+import { Jar } from '../jar'
 import { Piece } from './piece'
 
 export class HookPieceJ extends Piece {
 
-    constructor(game: Game) {
+    constructor(jar: Jar) {
         super(
-            game,
-            game.startingPosition,
+            jar,
+            jar.startingPosition,
             [
                 [new Coordinate(-1, 0), new Coordinate(1, 0), new Coordinate(1, 1)],
                 [new Coordinate(0, -1), new Coordinate(0, 1), new Coordinate(-1, 1)],
@@ -23,10 +23,10 @@ export class HookPieceJ extends Piece {
 
 export class HookPieceL extends Piece {
 
-    constructor(game: Game) {
+    constructor(jar: Jar) {
         super(
-            game,
-            game.startingPosition,
+            jar,
+            jar.startingPosition,
             [
                 [new Coordinate(1, 0), new Coordinate(-1, 0), new Coordinate(-1, 1)],
                 [new Coordinate(0, 1), new Coordinate(0, -1), new Coordinate(-1, -1)],
@@ -41,10 +41,10 @@ export class HookPieceL extends Piece {
 
 export class LightningPieceS extends Piece {
 
-    constructor(game: Game) {
+    constructor(jar: Jar) {
         super(
-            game,
-            game.startingPosition,
+            jar,
+            jar.startingPosition,
             [
                 [new Coordinate(0, -1), new Coordinate(1, -1), new Coordinate(-1, 0)],
                 [new Coordinate(1, 0), new Coordinate(1, 1), new Coordinate(0, -1)]
@@ -57,10 +57,10 @@ export class LightningPieceS extends Piece {
 
 export class LightningPieceZ extends Piece {
 
-    constructor(game: Game) {
+    constructor(jar: Jar) {
         super(
-            game,
-            game.startingPosition,
+            jar,
+            jar.startingPosition,
             [
                 [new Coordinate(-1, 0), new Coordinate(0, 1), new Coordinate(1, 1)],
                 [new Coordinate(0, -1), new Coordinate(-1, 0), new Coordinate(-1, 1)]
@@ -73,10 +73,10 @@ export class LightningPieceZ extends Piece {
 
 export class PyramidPiece extends Piece {
 
-    constructor(game: Game) {
+    constructor(jar: Jar) {
         super(
-            game,
-            game.startingPosition,
+            jar,
+            jar.startingPosition,
             [
                 [new Coordinate(-1, 0), new Coordinate(0, 1), new Coordinate(1, 0)],
                 [new Coordinate(0, -1), new Coordinate(-1, 0), new Coordinate(0, 1)],
@@ -91,10 +91,10 @@ export class PyramidPiece extends Piece {
 
 export class SquarePiece extends Piece {
 
-    constructor(game: Game) {
+    constructor(jar: Jar) {
         super(
-            game,
-            game.startingPosition,
+            jar,
+            jar.startingPosition,
             [
                 [new Coordinate(1, 0), new Coordinate(1, 1), new Coordinate(0, 1)]
             ],
@@ -106,10 +106,10 @@ export class SquarePiece extends Piece {
 
 export class StraightPiece extends Piece {
 
-    constructor(game: Game) {
+    constructor(jar: Jar) {
         super(
-            game,
-            game.startingPosition,
+            jar,
+            jar.startingPosition.offset(new Coordinate(0, 1)),
             [
                 [new Coordinate(1, 0), new Coordinate(2, 0), new Coordinate(-1, 0)],
                 [new Coordinate(0, 1), new Coordinate(0, 2), new Coordinate(0, -1)]

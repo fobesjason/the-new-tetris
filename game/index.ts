@@ -3,4 +3,4 @@ import { Physics } from 'excalibur'
 
 Physics.enabled = false
 
-new Game(10, 20).start()
+new Game(10, 22)

@@ -8,6 +8,10 @@ export class Coordinate {
         this.y = y
     }
 
+    equals(other: Coordinate) {
+        return this.x == other.x && this.y == other.y
+    }
+
     offset(delta: Coordinate) {
         return new Coordinate(this.x + delta.x, this.y + delta.y)
     }

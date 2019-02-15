@@ -1,96 +1,91 @@
 import { Actor, CollisionType, Color } from 'excalibur'
 import { Coordinate } from './coordinate'
-import { Game } from '../game'
 import { Grid } from '../grid'
+import { Jar } from '../jar'
 
 export class Square extends Actor {
 
     static size = 20.0
     static offset = Square.size / 2
 
-    private game: Game
+    private grid: Grid
 
-    constructor(game: Game, position: Coordinate, color: Color) {
+    constructor(jar: Jar, position: Coordinate, color: Color, shadow?: Boolean) {
         super({
             x: Grid.convertToPixel(position.x) + Square.offset,
             y: Grid.convertToPixel(position.y) + Square.offset,
             width: Square.size,
             height: Square.size,
             color: color,
-            collisionType: CollisionType.PreventCollision
+            collisionType: CollisionType.PreventCollision,
+            opacity: shadow ? .25 : 1
         })
 
-        this.game = game
-        this.game.engine.add(this)
+        this.grid = jar.grid
+        jar.add(this)
     }
 
     moveLeft() {
-        if (this.canMoveLeft()) {
-            this.pos.x -= Grid.convertToPixel(1)
-        }
+        this.moveToPixel(this.pos.x - Grid.convertToPixel(1), this.pos.y)
     }
 
     canMoveLeft() {
-        var overlap = Grid.getGridOverlap(this.pos.y)
-        if (this.game.grid.isEmpty(Grid.getGridLocation(this.pos.x - Grid.convertToPixel(1), this.pos.y))
-                && (overlap == .5 || 
-                    ((overlap < .5 && this.game.grid.isEmpty(Grid.getGridLocation(this.pos.x - Grid.convertToPixel(1), this.pos.y - Grid.convertToPixel(1))))
-                    || (overlap > .5 && this.game.grid.isEmpty(Grid.getGridLocation(this.pos.x - Grid.convertToPixel(1), this.pos.y + Grid.convertToPixel(1))))))) {
-            return true
-        }
-        return false
+        return this.canMoveToPixel(this.pos.x - Grid.convertToPixel(1), this.pos.y)
     }
 
     moveRight() {
-        if (this.canMoveRight()) {
-            this.pos.x += Grid.convertToPixel(1)
-        }
+        this.moveToPixel(this.pos.x + Grid.convertToPixel(1), this.pos.y)
     }
 
     canMoveRight() {
-        var overlap = Grid.getGridOverlap(this.pos.y)
-        if (this.game.grid.isEmpty(Grid.getGridLocation(this.pos.x + Grid.convertToPixel(1), this.pos.y))
-                && (overlap == .5 || 
-                    ((overlap < .5 && this.game.grid.isEmpty(Grid.getGridLocation(this.pos.x + Grid.convertToPixel(1), this.pos.y - Grid.convertToPixel(1))))
-                    || (overlap > .5 && this.game.grid.isEmpty(Grid.getGridLocation(this.pos.x + Grid.convertToPixel(1), this.pos.y + Grid.convertToPixel(1))))))) {
-            return true
-        }
-        return false
+        return this.canMoveToPixel(this.pos.x + Grid.convertToPixel(1), this.pos.y)
     }
 
-    moveDown() {
-        if (this.canMoveDown()) {
-            var speed = 2
-            var spaceToGrid = (this.pos.y - Square.offset) % Square.size
+    moveDown(speed?: number) {
+        this.moveToPixel(this.pos.x, this.pos.y + this.calculateSpeed(speed))
+    }
 
-            if (spaceToGrid > 0 && spaceToGrid < speed) {
+    canMoveDown(speed?: number) {
+        return this.canMoveToPixel(this.pos.x, this.pos.y + this.calculateSpeed(speed))
+    }
+
+    calculateSpeed(speed?: number) {
+        var speed = speed || 6
+        if (!Grid.getGridLocation(this.pos.x, this.pos.y + Square.offset).equals(Grid.getGridLocation(this.pos.x, this.pos.y  + Square.offset + speed))) {
+            var spaceToGrid = Square.size - (this.pos.y + Square.offset) % Square.size
+
+            if (spaceToGrid < speed) {
                 speed = spaceToGrid
             }
-
-            this.pos.y += speed
         }
-    }
 
-    canMoveDown() {
-        if (Grid.getGridOverlap(this.pos.y) != .5
-                || this.game.grid.isEmpty(Grid.getGridLocation(this.pos.x, this.pos.y + Grid.convertToPixel(1)))) {
-            return true
-        }
-        return false
+        return speed
     }
 
     addToGrid() {
-        this.game.grid.addSquare(this, Grid.getGridLocation(this.pos.x, this.pos.y))
+        this.grid.addSquare(this, Grid.getGridLocation(this.pos.x, this.pos.y))
     }
 
     moveToGrid(location: Coordinate) {
-        this.pos.x = Grid.convertToPixel(location.x) + Square.offset
-        this.pos.y = Grid.convertToPixel(location.y) + Square.offset
+        this.moveToPixel(Grid.convertToPixel(location.x) + Square.offset, Grid.convertToPixel(location.y) + Square.offset)
     }
 
     moveToPixel(pixelX: number, pixelY: number) {
-        this.pos.x = pixelX
-        this.pos.y = pixelY
+        if (this.canMoveToPixel(pixelX, pixelY)) {
+            this.pos.x = pixelX
+            this.pos.y = pixelY
+        }
+    }
+
+    canMoveToPixel(pixelX: number, pixelY: number) {
+        var overlap = Grid.getGridOverlap(pixelY)
+        if (this.grid.isEmpty(Grid.getGridLocation(pixelX, pixelY))
+                && (overlap == .5 || 
+                    ((overlap < .5 && this.grid.isEmpty(Grid.getGridLocation(pixelX, pixelY - Grid.convertToPixel(1))))
+                    || (overlap > .5 && this.grid.isEmpty(Grid.getGridLocation(pixelX, pixelY + Grid.convertToPixel(1))))))) {
+            return true
+        }
+        return false
     }
 
 }

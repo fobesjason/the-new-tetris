@@ -1,66 +1,54 @@
-import { DisplayMode, Engine } from 'excalibur'
-import { Coordinate } from './elements/coordinate'
-import { Grid } from './grid'
-import { HookPieceJ, HookPieceL, LightningPieceS, LightningPieceZ, PyramidPiece, SquarePiece, StraightPiece } from './elements/tetrisPiece'
-import { Input } from 'excalibur'
-import { Piece } from './elements/piece'
+import { Action, Jar } from './jar'
+import { DisplayMode, Engine, Input } from 'excalibur'
 
-export class Game {
+export class Game extends Engine {
 
-    engine: Engine
-    grid: Grid
-    startingPosition: Coordinate
-    private currentPiece: Piece
+    private jar: Jar
 
     constructor(width: number, height: number) {
-        this.engine = new Engine({ displayMode: DisplayMode.FullScreen })
+        super({ displayMode: DisplayMode.FullScreen })
 
-        this.engine.input.keyboard.on('press', event => {
-            if (this.currentPiece != null) {
+        this.input.keyboard.on('press', event => {
+            if (this.currentScene == this.jar) {
                 switch (event.key) {
                     case Input.Keys.Left:
                     case Input.Keys.A:
-                        this.currentPiece.moveLeft()
+                        this.jar.moveCurrentPiece(Action.MoveLeft)
                         break
                     case Input.Keys.Right:
                     case Input.Keys.D:
-                        this.currentPiece.moveRight()
+                    this.jar.moveCurrentPiece(Action.MoveRight)
+                        break
+                    case Input.Keys.Up:
+                    case Input.Keys.W:
+                        this.jar.moveCurrentPiece(Action.SnapDown)
                         break
                     case Input.Keys.E:
-                        this.currentPiece.rotateClockwise()
+                        this.jar.moveCurrentPiece(Action.RotateClockwise)
                         break
                     case Input.Keys.Q:
-                        this.currentPiece.rotateCounterclockwise()
+                        this.jar.moveCurrentPiece(Action.RotateCounterclockwise)
                         break
                 }
             }
         })
         
-        this.engine.input.keyboard.on('hold', event => {
-            if (this.currentPiece != null) {
+        this.input.keyboard.on('hold', event => {
+            if (this.currentScene == this.jar) {
                 switch (event.key) {
                     case Input.Keys.Down:
                     case Input.Keys.S:
-                        this.currentPiece.moveDown()
+                        this.jar.moveCurrentPiece(Action.MoveDown)
                         break
                 }
             }
         })
-        
-        this.grid = new Grid(this.engine, new Coordinate(width, height))
-        this.startingPosition = new Coordinate(5, 5)
 
-        this.engine.start()
-    }
+        this.jar = new Jar(width, height)
+        this.add("Tetris Jar", this.jar)
 
-    start() {
-        // new StraightPiece(this).addToGrid()
-        // new LightningPieceS(this).addToGrid()
-        // new LightningPieceZ(this).addToGrid()
-        // new PyramidPiece(this).addToGrid()
-        // new HookPieceJ(this).addToGrid()
-        // new HookPieceL(this).addToGrid()
-        this.currentPiece = new HookPieceJ(this)
+        this.start()
+        this.goToScene("Tetris Jar")
     }
 
 }
